@@ -1,5 +1,5 @@
 # PHP RFC: Unify PHP's typing modes (aka remove strict_type declare)
-  * Version: 0.1
+  * Version: 0.2
   * Date: 2021-02-10
   * Author: George Peter Banyard, <girgias@php.net>
   * Status: Draft
@@ -61,11 +61,11 @@ It bears to reanalyse these points after having seen how users interact with PHP
 
 Due to the systematic use of the strict typing mode imposed by modern coding styles [6] many users do not understand what the scope of the declare is nor what it does.
 
-Many assume this makes PHP stricter in regards to type juggling when in reality it only affects the passing of inputs to function called in userland and the return value of custom userland functions.
+Many assume this makes PHP stricter in regards to type juggling when in reality it only affects the passing of scalar inputs to function called in userland, the scalar return value of custom userland functions, and setting a value to a typed scalar property. [11][12]
 
 It does not prevent types being juggled with the use of operators, nor functions which are called by the engine, even if the function is defined in userland with strict typing enabled. Prime examples of this are engine handlers such as the error, exception, and shutdown handlers.
 
-This means that at all time two set of typing rules need to be remembered, one too strict and one too lax. The solution to this is to make the coercive typing mode (the default) more sensible and stricter not using declares to make certain aspects of PHP's type juggling system stricter.
+This means that at all time two set of typing rules need to be remembered, one too strict and one too lax. The solution to this is to make the coercive typing mode (the default) more sensible and stricter; not using declares to make certain aspects of PHP's type juggling system stricter.
 
 #### 2. Too strict may lead to too lax
 
@@ -94,6 +94,12 @@ try {
 
 Although this is only tangentially related as a proper definition of a package/module in PHP is still highly desirable, but the driving force for this has mostly been how to apply the `strict_type` declare without needing to repeat one-self, something which is a non-issue with a unified typing mode.
 
+## Reason for keeping the `strict_type` declare
+
+The main reason to keep the `strict_type` declare is to signal to static analysers and IDEs that one doesn't want to use PHP's type juggling.
+
+However, due to it possessing well defined and constrained semantics IDEs/static analysers may not use this declare statement to expand its scope, for example to show an error when using PHP's type juggling with operators. Being able to expand its semantics via a configuration option  would remove the need for additional declare statements which cannot be used on previous versions of PHP. One such proposal is the withdrawn "Strict operator directive" RFC. [13]
+
 
 ## Prerequisites
 
@@ -107,23 +113,11 @@ According to the previous reasons mentioned in favour of the introduction of the
  - [ ] No implicit float to integer type coercion if it has a fractional part [10]
  - [ ] No implicit boolean to scalar type coercion
  - [ ] No implicit float to boolean type coercion
- - [ ] Float to integer covariance (maybe not needed here)
 
 ## Proposal
 
 Make the `strict_type` declare inoperative but keep the possibility to declare it without generating any warning in the next major version of PHP (tentatively PHP 9.0).
 
-Formally deprecate the `strict_type` declare, i.e. generate an `E_DEPRECATED`, in the subsequent major version (tentatively PHP 10.0).
-
-Remove the `strict_type` declare in the subsequent major version (i.e. tentatively PHP 11.0).
-
-This timeline and method for removing the `strict_type` declare is there to give time for code bases and code style standards to drop the use of this declaration.
-
-### Alternative timeline
-
-Formally deprecate the `strict_type` declare, i.e. generate an `E_DEPRECATED`, in the last minor version where this RFC is accepted (e.g. PHP 9.4).
-
-This means it would be removed in PHP 10.0 which would be the subsequent major version.
 
 ## Backward Incompatible Changes
  
@@ -162,8 +156,11 @@ After the project is implemented, this section should contain
 [5]: <https://wiki.php.net/rfc/scalar_type_hints_v5> PHP RFC: Scalar Type Declarations  
 [6]: <https://www.php-fig.org/psr/psr-12/> PSR-12 Specification  
 [7]: <https://wiki.php.net/rfc/consistent_type_errors> PHP RFC: Consistent type errors for internal functions  
-[8]: <https://wiki.php.net/rfc/saner-numeric-strings> PHP RFC: Saner numeric strings
+[8]: <https://wiki.php.net/rfc/saner-numeric-strings> PHP RFC: Saner numeric strings  
 [9]: <https://wiki.php.net/rfc/deprecate_null_to_scalar_internal_arg> PHP RFC: Deprecate passing null to non-nullable arguments of internal functions  
 [10]: <https://github.com/Girgias/float-int-warning> Deprecate implicit float to int conversions  
+[11]: <https://www.php.net/manual/en/language.types.declarations.php#language.types.declarations.strict> PHP Documentation about the `strict_type` declare   
+[12]: <https://wiki.php.net/rfc/typed_properties_v2#strict_and_coercive_typing_modes> "Strict and Coercive Typing Modes" section of the "Typed Properties 2.0" PHP RFC  
+[13]: <https://wiki.php.net/rfc/strict_operators> PHP RFC: Strict operators directive  
 
 
