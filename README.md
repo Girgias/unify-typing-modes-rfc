@@ -13,7 +13,7 @@ PHP compared to other languages has two typing mode in which it can operate, one
 
 The introduction of scalar type declarations into PHP was a contentious issue and was discussed in numerous RFCs.[1][2][3][4][5]
 
-The RFC which ultimately landed this feature is the ["Scalar Type Declarations"][5] one made by Anthony Ferrara which iterated upon Andreas Faulds's original RFC and which decided to add the  `strict_type` declare.
+The RFC which ultimately landed this feature is the ["Scalar Type Declarations"][5] one made by Anthony Ferrara which iterated upon Andrea Faulds's original RFC and which decided to add the  `strict_type` declare.
 
 However, the competing RFC from [Zend Technologies et al][4] proposed to tighten the type coercion rules for function arguments and return values instead. It's changes were the followings:
 
