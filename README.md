@@ -110,7 +110,7 @@ According to the previous reasons mentioned in favour of the introduction of the
 	 - [x] Sensible semantics for what corresponds to a valid numeric string [8]
 	 - [ ] Elevate remaining related warnings to TypeErrors 
  - [x] Internal functions must not use nullable types by default [9]
- - [ ] No implicit float to integer type coercion if it has a fractional part [10]
+ - [x] No implicit float to integer type coercion if it has a fractional part [10]
  - [ ] No implicit boolean to scalar type coercion
  - [ ] No implicit float to boolean type coercion
 
@@ -158,7 +158,7 @@ After the project is implemented, this section should contain
 [7]: <https://wiki.php.net/rfc/consistent_type_errors> PHP RFC: Consistent type errors for internal functions  
 [8]: <https://wiki.php.net/rfc/saner-numeric-strings> PHP RFC: Saner numeric strings  
 [9]: <https://wiki.php.net/rfc/deprecate_null_to_scalar_internal_arg> PHP RFC: Deprecate passing null to non-nullable arguments of internal functions  
-[10]: <https://github.com/Girgias/float-int-warning> Deprecate implicit float to int conversions  
+[10]: <https://wiki.php.net/rfc/implicit-float-int-deprecate> Deprecate implicit non-integer-compatible float to int conversions  
 [11]: <https://www.php.net/manual/en/language.types.declarations.php#language.types.declarations.strict> PHP Documentation about the `strict_types` declare   
 [12]: <https://wiki.php.net/rfc/typed_properties_v2#strict_and_coercive_typing_modes> "Strict and Coercive Typing Modes" section of the "Typed Properties 2.0" PHP RFC  
 [13]: <https://wiki.php.net/rfc/strict_operators> PHP RFC: Strict operators directive  
